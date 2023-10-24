@@ -1,7 +1,3 @@
-restaurantes = []  # Lista criada como bd para restaurantes parceiros
-cardapios = []  # Lista criada para os cardapios
-
-
 def Main(acesso="primeiro"):  # Primeira função que inicia todo o fluxo
     if acesso == "primeiro":  # Indica a primeiro input na sessao desse usuario.
         print(
@@ -81,6 +77,10 @@ def menu_clientes():  # arvore de decisao menu_clientes
     else:
         print("\n********** Comando invalido! **********".center(60))
         return menu_parceiros()
+
+
+restaurantes = []  # Lista criada como bd para restaurantes parceiros
+cardapios = []  # Lista criada para os cardapios
 
 
 Main()

@@ -78,6 +78,38 @@ def menu_clientes():  # arvore de decisao menu_clientes
         print("\n********** Comando invalido! **********".center(60))
         return menu_parceiros()
 
+def cadastro():
+    nome_restaurante = input("Digite o nome do restaurante: ")
+    endereco_restaurante = input("Digite o endereço do restaurante: ")
+    telefone_restaurante = input("Digite o telefone do restaurante: ")
+    tempo_de_entrega = int(input("Digite o tempo de entrega em minutos: "))
+    
+    restaurante_info = [nome_restaurante, endereco_restaurante, telefone_restaurante, tempo_de_entrega]
+
+    restaurantes.append(restaurante_info)
+    indice_restaurantes.append(nome_restaurante)
+    
+    print(f"Restaurante '{nome_restaurante}' cadastrado com sucesso!")
+    
+    return menu_parceiros()
+
+def editar_restaurante():
+    #restaurante = input('Digite o nome do restaurante a ser editado: ')
+    for indice, numero in enumerate(indice_restaurantes):
+        print(indice,'-', numero)
+        
+    
+
+
+        
+
+indice_restaurantes = [
+    "Der Haus",
+    "Papa de Lucca",
+    "Onigiri Sushi ",
+    "Muquecas e Cia",
+    "Le Jaque Bistro"
+]
 
 restaurantes = [
     ["Der Haus", "Rua do chucrute, N.500", "11-3456-9876", 45],
@@ -103,18 +135,7 @@ precos = [
     [75.5, 50.0, 20.0],
 ]
 
-def cadastro():
-    nome_restaurante = input("Digite o nome do restaurante: ")
-    endereco_restaurante = input("Digite o endereço do restaurante: ")
-    telefone_restaurante = input("Digite o telefone do restaurante: ")
-    tempo_de_entrega = int(input("Digite o tempo de entrega em minutos: "))
-    
-    restaurante_info = [nome_restaurante, endereco_restaurante, telefone_restaurante, tempo_de_entrega]
 
-    restaurantes.append(restaurante_info)
-    
-    print(f"Restaurante '{nome_restaurante}' cadastrado com sucesso!")
-    return menu_parceiros()
 
 Main()
 

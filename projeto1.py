@@ -103,6 +103,18 @@ precos = [
     [75.5, 50.0, 20.0],
 ]
 
+def cadastro():
+    nome_restaurante = input("Digite o nome do restaurante: ")
+    endereco_restaurante = input("Digite o endereço do restaurante: ")
+    telefone_restaurante = input("Digite o telefone do restaurante: ")
+    tempo_de_entrega = int(input("Digite o tempo de entrega em minutos: "))
+    
+    restaurante_info = [nome_restaurante, endereco_restaurante, telefone_restaurante, tempo_de_entrega]
+
+    restaurantes.append(restaurante_info)
+    
+    print(f"Restaurante '{nome_restaurante}' cadastrado com sucesso!")
+    return menu_parceiros()
 
 Main()
 

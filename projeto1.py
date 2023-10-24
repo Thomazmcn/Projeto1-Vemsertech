@@ -79,10 +79,31 @@ def menu_clientes():  # arvore de decisao menu_clientes
         return menu_parceiros()
 
 
-restaurantes = []  # Lista criada como bd para restaurantes parceiros
-cardapios = []  # Lista criada para os cardapios
+restaurantes = [
+    ["Der Haus", "Rua do chucrute, N.500", "11-3456-9876", 45],
+    ["Papa de Lucca", "Rua da pizza, N. 190", "11-1234-0987", 30],
+    ["Onigiri Sushi ", "Avenida da Liberdade, N. 999", "11-4312-4576", 50],
+    ["Muquecas e Cia", "Rua dos Orixás, N. 30", "11-5678-4321", 25],
+    ["Le Jaque Bistro", "Avenida Crpissant, N. 222", "11-76442323", 60],
+]  # Lista criada como bd para restaurantes parceiros
+
+cardapios = [
+    ["Eisbein", "Currywurst", "Sauar Kraut", "Aftasardemedoem"],
+    ["Espagete a bolonhesa", "Polpetone", "Burrata"],
+    ["Sukiaki", "Combinado", "Yakisoba", "Sobôro"],
+    ["Muqueca de camarão", "Acarajé", "Vatapá"],
+    ["Filet ao Poivre", "Escargot", "Rest ondon té"],
+]  # Lista criada para os cardapios
+
+precos = [
+    [45.5, 25.0, 15.5, 50.5],
+    [35.0, 40.0, 20.0],
+    [90.0, 60.0, 50.0, 20.0],
+    [80.0, 25.5, 25],
+    [75.5, 50.0, 20.0],
+]
 
 
 Main()
 
-#teste
+# teste

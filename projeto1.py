@@ -31,8 +31,8 @@ def menu_parceiros():  # arvore de decisao menu_parceiros
         "\n 1 - Cadastrar restaurante",
         " 2 - Editar restaurantes",
         " 3 - Editar cardápio",
-        " 4 - Dar desconto",
-        " 5 - Remover restaurante",
+        " 4 - Remover restaurante",
+        " 5 - Dar desconto",
         " 6 - Sair",
         sep="\n",
     )
@@ -47,10 +47,10 @@ def menu_parceiros():  # arvore de decisao menu_parceiros
         return editar_cardapio()
 
     elif op == "4":
-        return desconto()
+        return remover_restaurante()
 
     elif op == "5":
-        return remover_restaurante()
+        return desconto()
 
     elif op == "6" or op == "sair":
         return Main()
@@ -290,6 +290,31 @@ def desconto():
     )
     return menu_parceiros()
 
+def remover_restaurante():
+    print("Lista de restaurantes para remoção:")
+    
+    for i, restaurante in enumerate(indice_restaurantes):
+        print(f"{i + 1} - {restaurante}")
+    
+    escolha = input("\nDigite o número do restaurante que deseja remover ou '0' para cancelar: ")
+    
+    if escolha == '0':
+        return menu_parceiros()
+    
+    if escolha.isdigit():
+        escolha = int(escolha) - 1
+        if 0 <= escolha < len(indice_restaurantes):
+            restaurante_removido = indice_restaurantes.pop(escolha)
+            restaurante_info = restaurantes.pop(escolha)
+            cardapio_removido = cardapios.pop(escolha)
+            preco_removido = precos.pop(escolha)
+            print(f"Restaurante '{restaurante_removido}' removido com sucesso!")
+        else:
+            print("Escolha inválida. Tente novamente.")
+    else:
+        print("Escolha inválida. Deve ser um número. Tente novamente.")
+    
+    return menu_parceiros()
 
 indice_restaurantes = [
     "Das Haus",

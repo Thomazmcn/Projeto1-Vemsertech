@@ -163,7 +163,7 @@ Função cria cardapio do novo restaurante cadastrado.
 def criar_cardapio(nome_restaurante):
     cardapio_temp = []
     preco_temp = []
-    continua = "1"  # utilizado para while da linha 161
+    continua = "1" 
 
     while continua == "1":
         prato = input("\nDigite o nome do prato: \n")
@@ -188,7 +188,6 @@ def criar_cardapio(nome_restaurante):
         print(preco_temp[i])
         return menu_parceiros()
 
-#teste de pull request
 
 def editar_cardapio():
     print("*** Editor de cardapios***")
@@ -205,6 +204,8 @@ def editar_cardapio():
             not novo_preco.isnumeric() or float(novo_preco) <= 0
         ):  # testa input valido
             novo_preco = input("\n Digite o preço do prato: \n R$ ")
+            # Remove vírgulas, pontos e espaços da entrada do usuário
+            novo_preco = novo_preco.replace(",", "").replace(".", "").replace(" ", "")
         cardapios[id_restaurante][id_prato] = novo_prato
         precos[id_restaurante][id_prato] = novo_preco
         repetir = input("Para editar outro prato digite 1, qualquer tecla para sair:")

@@ -184,6 +184,7 @@ def criar_cardapio(nome_restaurante):
         print(preco_temp[i])
         return menu_parceiros()
 
+#teste de pull request
 
 def editar_cardapio():
     pass

@@ -8,7 +8,7 @@ def Main(acesso="primeiro"):  # Primeira função que inicia todo o fluxo
         "\nDigite o numero da opção desejada.\n 1 - Parceiro \n 2 - Cliente \n"
     )  # opçoes de navegaçao, dividem os usuarios entre parceiros e clientes
     if escolha == "1":
-        print("\n***** Bem vindo parceiro! Muito bom telo aqui. *****".center(50))
+        print("\n***** Bem vindo parceiro! Muito bom tê-lo aqui. *****".center(50))
         pass
         return menu_parceiros()  # acessa funçao menu_parceiros
 
@@ -161,27 +161,34 @@ Função cria cardapio do novo restaurante cadastrado.
 
 
 def criar_cardapio(nome_restaurante):
-    continua = "1"  # utilizado para while da linha 161
     cardapio_temp = []
     preco_temp = []
-    preco = "0"  # possibilita loop de preço, para garantir input correto.
+    continua = "1"  # utilizado para while da linha 161
+
     while continua == "1":
-        prato = input("\n Digite o nome do prato: \n ")
-        while not preco.isnumeric() or float(preco) <= 0:  # testa input valido
-            preco = input("\n Digite o preço do prato: \n R$ ")
-        cardapio_temp.append(prato)
-        preco_temp.append(float(preco))
-        preco = "0"  # Reestabelece variavel para loop da linha 163
-        continua = input("\n Digite 1 para adicionar um novo item, ou 0 para sair: ")
+        prato = input("\nDigite o nome do prato: \n")
+        preco = input("\nDigite o preço do prato: \nR$ ")
+
+        # Remove vírgulas, pontos e espaços da entrada do usuário
+        preco = preco.replace(",", "").replace(".", "").replace(" ", "")
+
+        if preco.isdigit() and float(preco) > 0:
+            cardapio_temp.append(prato)
+            preco_temp.append(float(preco))
+            continua = input("\nDigite 1 para adicionar um novo item, ou 0 para sair: ")
+        else:
+            print("\nPor favor, digite um preço válido maior que zero.")
+
     cardapios.append(cardapio_temp)
     precos.append(preco_temp)
-    print(f"\nO cardapio do {nome_restaurante} é: ")
+    print(f"\nO cardápio do {nome_restaurante} é: ")
+    
     for i in range(len(cardapio_temp)):
         print(cardapio_temp[i], end=" - ")
         print(preco_temp[i])
+        return menu_parceiros()
 
-    return menu_parceiros()
-
+#teste de pull request
 
 def editar_cardapio():
     print("*** Editor de cardapios***")
@@ -314,5 +321,3 @@ precos = [
 
 
 Main()
-
-# teste

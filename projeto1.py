@@ -32,7 +32,7 @@ def menu_parceiros():  # arvore de decisao menu_parceiros
         " 2 - Editar restaurantes",
         " 3 - Editar cardápio",
         " 4 - Dar desconto",
-        " 5 - Remover restaurante"
+        " 5 - Remover restaurante",
         " 6 - Sair",
         sep="\n",
     )
@@ -48,7 +48,7 @@ def menu_parceiros():  # arvore de decisao menu_parceiros
 
     elif op == "4":
         return desconto()
-    
+
     elif op == "5":
         return remover_restaurante()
 
@@ -82,52 +82,65 @@ def menu_clientes():  # arvore de decisao menu_clientes
         print("\n********** Comando invalido! **********".center(60))
         return menu_parceiros()
 
+
 def cadastro():
-    nome_restaurante = input("Digite o nome do restaurante: ")
-    endereco_restaurante = input("Digite o endereço do restaurante: ")
-    telefone_restaurante = input("Digite o telefone do restaurante: ")
-    tempo_de_entrega = int(input("Digite o tempo de entrega em minutos: "))
-    
-    restaurante_info = [nome_restaurante, endereco_restaurante, telefone_restaurante, tempo_de_entrega]
+    nome_restaurante = input("\n Digite o nome do restaurante: ")
+    endereco_restaurante = input(" Digite o endereço do restaurante: ")
+    telefone_restaurante = input(" Digite o telefone do restaurante: ")
+    tempo_de_entrega = int(input(" Digite o tempo de entrega em minutos: "))
+
+    restaurante_info = [
+        nome_restaurante,
+        endereco_restaurante,
+        telefone_restaurante,
+        tempo_de_entrega,
+    ]
 
     restaurantes.append(restaurante_info)
     indice_restaurantes.append(nome_restaurante)
-    
-    print(f"Restaurante '{nome_restaurante}' cadastrado com sucesso!")
-    
-    return menu_parceiros()
+
+    print(f"\n Restaurante '{nome_restaurante}' cadastrado com sucesso!")
+    print("\n Agora crie um cardapio! ")
+
+    return criar_cardapio(nome_restaurante)
+
 
 def editar_restaurante():
-    
+    opcoes = []
+    escolha = "-1"
     for indice, numero in enumerate(indice_restaurantes):
-        print(indice,'-', numero)
-    
-    escolha = input("\nDigite o número do restaurante que deseja editar: ")
-    
+        opcoes.append(str(indice))
+        print(indice, "-", numero)
+
+    while escolha not in opcoes:
+        escolha = input("\nDigite o número do restaurante que deseja editar: ")
+
     if escolha.isdigit():
         escolha = int(escolha)
-        
+
         if 0 <= escolha < len(indice_restaurantes):
             restaurante_selecionado = restaurantes[escolha]
             print(f"\nEditando restaurante: {indice_restaurantes[escolha]}")
-            
-            novo_nome = input("Digite o novo nome do restaurante: ")
+
+            novo_nome = input("\nDigite o novo nome do restaurante: ")
             novo_endereco = input("Digite o novo endereço do restaurante: ")
             novo_telefone = input("Digite o novo telefone do restaurante: ")
-            
+
             while True:
-                novo_tempo_de_entrega = input("Digite o novo tempo de entrega em minutos: ")
+                novo_tempo_de_entrega = input(
+                    "Digite o novo tempo de entrega em minutos: "
+                )
                 if novo_tempo_de_entrega.isdigit():
                     novo_tempo_de_entrega = int(novo_tempo_de_entrega)
                     break
                 else:
                     print("Tempo de entrega deve ser um número inteiro.")
-            
+
             restaurante_selecionado[0] = novo_nome
             restaurante_selecionado[1] = novo_endereco
             restaurante_selecionado[2] = novo_telefone
             restaurante_selecionado[3] = novo_tempo_de_entrega
-            
+
             print(f"Restaurante '{novo_nome}' editado com sucesso!")
             return menu_parceiros()
         else:
@@ -136,13 +149,72 @@ def editar_restaurante():
     else:
         print("Escolha inválida. Deve ser um número. Tente novamente.")
         return editar_restaurante()
- 
+
+
+"""
+Função cria cardapio do novo restaurante cadastrado.
+"""
+
+
+def criar_cardapio(nome_restaurante):
+    continua = "1"  # utilizado para while da linha 161
+    cardapio_temp = []
+    preco_temp = []
+    preco = "0"  # possibilita loop de preço, para garantir input correto.
+    while continua == "1":
+        prato = input("\n Digite o nome do prato: \n ")
+        while not preco.isnumeric() or float(preco) <= 0:  # testa input valido
+            preco = input("\n Digite o preço do prato: \n R$ ")
+        cardapio_temp.append(prato)
+        preco_temp.append(float(preco))
+        preco = "0"  # Reestabelece variavel para loop da linha 163
+        continua = input("\n Digite 1 para adicionar um novo item, ou 0 para sair: ")
+    cardapios.append(cardapio_temp)
+    precos.append(preco_temp)
+    print(f"\nO cardapio do {nome_restaurante} é: ")
+    for i in range(len(cardapio_temp)):
+        print(cardapio_temp[i], end=" - ")
+        print(preco_temp[i])
+
+    return menu_parceiros()
+
+
+def editar_cardapio():
+    pass
+
+
+"""
+Função adicional proposta pelos alunos. Cria um desconto aplicado a todo o cardapio. 
+"""
+
+
+def desconto():
+    restaurante = None
+    desconto = "0.0"
+    contador = 0
+    while restaurante not in indice_restaurantes:
+        if restaurante is not None:
+            print("Nome invalido. Digite um restaurante cadastrado.")
+        restaurante = input(" Digite o nome do restaurante que fará promoção: ")
+    while not desconto.isnumeric():
+        desconto = input(" Digite o desconto desejado. Ex: 30 => 30%.\n ")
+    coeficiente = (100 - int(desconto)) / 100
+    indice = indice_restaurantes.index(restaurante)
+    for valor in precos[indice]:
+        valor = valor * coeficiente
+        contador += 1
+    print(
+        f" Os {contador} itens do cardapio do restaurante {restaurante} receberam desconto de {desconto}%. \n "
+    )
+    return menu_parceiros()
+
+
 indice_restaurantes = [
-    "Der Haus",
+    "Das Haus",
     "Papa de Lucca",
     "Onigiri Sushi ",
     "Muquecas e Cia",
-    "Le Jaque Bistro"
+    "Le Jaque Bistro",
 ]
 
 restaurantes = [
@@ -168,7 +240,6 @@ precos = [
     [80.0, 25.5, 25],
     [75.5, 50.0, 20.0],
 ]
-
 
 
 Main()

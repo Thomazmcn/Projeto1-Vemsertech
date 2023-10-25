@@ -65,7 +65,8 @@ def menu_clientes():  # arvore de decisao menu_clientes
         "\n ---- Escolha um dos numeros. ---- ".center(35),
         "\n 1 - Restaurantes ",
         " 2 - Busca de restaurantes",
-        " 3 - Sair",
+        " 3 - Cardapios",
+        " 4 - Sair",
         sep="\n",
     )
     op = input("\n Digite a opção: ")
@@ -75,7 +76,10 @@ def menu_clientes():  # arvore de decisao menu_clientes
     elif op == "2":
         return busca()
 
-    elif op == "3" or op == "sair":
+    elif op == "3":
+        return visualizar_cardapio()
+
+    elif op == "4" or op == "sair":
         return Main()
 
     else:
@@ -180,7 +184,74 @@ def criar_cardapio(nome_restaurante):
 
 
 def editar_cardapio():
-    pass
+    print("*** Editor de cardapios***")
+    id_restaurante = visualizar_cardapio()  # Return a variavel id_restaurante
+    opcao = input(
+        "Para editar prato digite 1, 2 para deletar prato, ou qualquer tecla para sair:\n"
+    )
+
+    if opcao == "1":
+        id_prato = tratar_prato(id_restaurante)  # return id_prato para cardapio
+        novo_preco = "0"
+        novo_prato = input(f"Digite novo nome para o prato N - {id_prato+1}\n")
+        while (
+            not novo_preco.isnumeric() or float(novo_preco) <= 0
+        ):  # testa input valido
+            novo_preco = input("\n Digite o preço do prato: \n R$ ")
+        cardapios[id_restaurante][id_prato] = novo_prato
+        precos[id_restaurante][id_prato] = novo_preco
+        repetir = input("Para editar outro prato digite 1, qualquer tecla para sair:")
+        if repetir == "1":
+            return editar_cardapio()
+        else:
+            return menu_parceiros()
+
+    elif opcao == "2":
+        id_prato = tratar_prato(id_restaurante)
+        deletar = input(
+            f"""Deseja deletar o prato {cardapios[id_restaurante][id_prato]}?
+    \nDigite 1 para sim, qualquer tecla para não."""
+        )
+        if deletar == "1":
+            del cardapios[id_restaurante][id_prato]
+            del precos[id_restaurante][id_prato]
+            repetir = input(
+                "Para editar outro prato digite 1, qualquer tecla para sair:"
+            )
+            if repetir == "1":
+                return editar_cardapio()
+            else:
+                return menu_parceiros()
+        else:
+            return menu_parceiros()
+
+    else:
+        return menu_parceiros()
+
+
+def tratar_prato(id_restaurante):
+    id_prato = "-1"
+    while id_prato not in range(len(cardapios[id_restaurante][:])):
+        id_prato = int(input(("\nDigite o numero do prato.\n"))) - 1
+    return id_prato
+
+
+def visualizar_cardapio():
+    id_restaurante = "-1"
+    for i in range(len(indice_restaurantes)):
+        print(i + 1, " - ", indice_restaurantes[i])
+    while id_restaurante not in range(len(indice_restaurantes)):
+        id_restaurante = int(input("\nDigite o numero do restaurante desejado:\n ")) - 1
+    print(f"\nSegue o cardapio do restaurante {indice_restaurantes[id_restaurante]}:")
+    for pratos in range(len(cardapios[id_restaurante][:])):
+        print(
+            pratos + 1,
+            " - ",
+            cardapios[id_restaurante][pratos],
+            " - ",
+            precos[id_restaurante][pratos],
+        )
+    return id_restaurante
 
 
 """
@@ -226,7 +297,7 @@ restaurantes = [
 ]  # Lista criada como bd para restaurantes parceiros
 
 cardapios = [
-    ["Eisbein", "Currywurst", "Sauar Kraut", "Aftasardemedoem"],
+    ["Eisbein", "Currywurst", "Sauerkraut", "Aftasardemedoem"],
     ["Espagete a bolonhesa", "Polpetone", "Burrata"],
     ["Sukiaki", "Combinado", "Yakisoba", "Sobôro"],
     ["Muqueca de camarão", "Acarajé", "Vatapá"],

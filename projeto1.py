@@ -80,7 +80,7 @@ def menu_clientes():  # arvore de decisao menu_clientes
 
 
 restaurantes = [
-    ["Der Haus", "Rua do chucrute, N.500", "11-3456-9876", 45],
+    ["Das Haus", "Rua do chucrute, N.500", "11-3456-9876", 45],
     ["Papa de Lucca", "Rua da pizza, N. 190", "11-1234-0987", 30],
     ["Onigiri Sushi ", "Avenida da Liberdade, N. 999", "11-4312-4576", 50],
     ["Muquecas e Cia", "Rua dos Orixás, N. 30", "11-5678-4321", 25],

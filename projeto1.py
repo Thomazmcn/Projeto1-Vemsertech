@@ -32,7 +32,8 @@ def menu_parceiros():  # arvore de decisao menu_parceiros
         " 2 - Editar restaurantes",
         " 3 - Editar cardápio",
         " 4 - Dar desconto",
-        " 5 - Sair",
+        " 5 - Remover restaurante"
+        " 6 - Sair",
         sep="\n",
     )
     op = input("\n Digite a opção para acesso: ")
@@ -47,8 +48,11 @@ def menu_parceiros():  # arvore de decisao menu_parceiros
 
     elif op == "4":
         return desconto()
+    
+    elif op == "5":
+        return remover_restaurante()
 
-    elif op == "5" or op == "sair":
+    elif op == "6" or op == "sair":
         return Main()
 
     else:
@@ -78,6 +82,68 @@ def menu_clientes():  # arvore de decisao menu_clientes
         print("\n********** Comando invalido! **********".center(60))
         return menu_parceiros()
 
+def cadastro():
+    nome_restaurante = input("Digite o nome do restaurante: ")
+    endereco_restaurante = input("Digite o endereço do restaurante: ")
+    telefone_restaurante = input("Digite o telefone do restaurante: ")
+    tempo_de_entrega = int(input("Digite o tempo de entrega em minutos: "))
+    
+    restaurante_info = [nome_restaurante, endereco_restaurante, telefone_restaurante, tempo_de_entrega]
+
+    restaurantes.append(restaurante_info)
+    indice_restaurantes.append(nome_restaurante)
+    
+    print(f"Restaurante '{nome_restaurante}' cadastrado com sucesso!")
+    
+    return menu_parceiros()
+
+def editar_restaurante():
+    
+    for indice, numero in enumerate(indice_restaurantes):
+        print(indice,'-', numero)
+    
+    escolha = input("\nDigite o número do restaurante que deseja editar: ")
+    
+    if escolha.isdigit():
+        escolha = int(escolha)
+        
+        if 0 <= escolha < len(indice_restaurantes):
+            restaurante_selecionado = restaurantes[escolha]
+            print(f"\nEditando restaurante: {indice_restaurantes[escolha]}")
+            
+            novo_nome = input("Digite o novo nome do restaurante: ")
+            novo_endereco = input("Digite o novo endereço do restaurante: ")
+            novo_telefone = input("Digite o novo telefone do restaurante: ")
+            
+            while True:
+                novo_tempo_de_entrega = input("Digite o novo tempo de entrega em minutos: ")
+                if novo_tempo_de_entrega.isdigit():
+                    novo_tempo_de_entrega = int(novo_tempo_de_entrega)
+                    break
+                else:
+                    print("Tempo de entrega deve ser um número inteiro.")
+            
+            restaurante_selecionado[0] = novo_nome
+            restaurante_selecionado[1] = novo_endereco
+            restaurante_selecionado[2] = novo_telefone
+            restaurante_selecionado[3] = novo_tempo_de_entrega
+            
+            print(f"Restaurante '{novo_nome}' editado com sucesso!")
+            return menu_parceiros()
+        else:
+            print("Escolha inválida. Tente novamente.")
+            return editar_restaurante()
+    else:
+        print("Escolha inválida. Deve ser um número. Tente novamente.")
+        return editar_restaurante()
+ 
+indice_restaurantes = [
+    "Der Haus",
+    "Papa de Lucca",
+    "Onigiri Sushi ",
+    "Muquecas e Cia",
+    "Le Jaque Bistro"
+]
 
 restaurantes = [
     ["Das Haus", "Rua do chucrute, N.500", "11-3456-9876", 45],
@@ -102,6 +168,7 @@ precos = [
     [80.0, 25.5, 25],
     [75.5, 50.0, 20.0],
 ]
+
 
 
 Main()

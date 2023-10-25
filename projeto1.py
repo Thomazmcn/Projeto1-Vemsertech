@@ -5,7 +5,7 @@ def Main(acesso="primeiro"):  # Primeira função que inicia todo o fluxo
         )  # Formatação para melhorar expericencia do usuario.
 
     escolha = input(
-        "\nDigite o numero da opção desejada.\n 1 - Parceiro \n 2 - Cliente \n"
+        "\nDigite o numero da opção desejada.\n 1 - Gestão de Restaurantes \n 2 - Gestão de cardápio \n"
     )  # opçoes de navegaçao, dividem os usuarios entre parceiros e clientes
     if escolha == "1":
         print("\n***** Bem vindo parceiro! Muito bom tê-lo aqui. *****".center(50))
@@ -271,19 +271,22 @@ def desconto():
     restaurante = None
     desconto = "0.0"
     contador = 0
-    while restaurante not in indice_restaurantes:
+    for i in range(len(indice_restaurantes)):
+        print(i + 1, " - ", indice_restaurantes[i])
+    while restaurante not in range(len(indice_restaurantes)):
         if restaurante is not None:
-            print("Nome invalido. Digite um restaurante cadastrado.")
-        restaurante = input(" Digite o nome do restaurante que fará promoção: ")
+            print("Numero invalido. Digite um numero cadastrado.")
+        restaurante = int(input(" Digite o numero do restaurante que fará promoção: "))-1
     while not desconto.isnumeric():
         desconto = input(" Digite o desconto desejado. Ex: 30 => 30%.\n ")
     coeficiente = (100 - int(desconto)) / 100
-    indice = indice_restaurantes.index(restaurante)
-    for valor in precos[indice]:
+    for valor in precos[restaurante]:
         valor = valor * coeficiente
+        precos[restaurante][contador] = valor
         contador += 1
+
     print(
-        f" Os {contador} itens do cardapio do restaurante {restaurante} receberam desconto de {desconto}%. \n "
+        f" Os {contador} itens do cardapio do restaurante {indice_restaurantes[restaurante]} receberam desconto de {desconto}%. \n "
     )
     return menu_parceiros()
 

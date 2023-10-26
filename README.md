@@ -4,6 +4,7 @@ Equipe: </br>
 @Micheleregina2022 </br>
 @ThiagoRochedo </br>
 @Thomazmcn </br>
+@AbelNandza 
 
 
 ### Síntese da Proposta do Projeto

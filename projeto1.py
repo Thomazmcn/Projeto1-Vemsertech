@@ -5,35 +5,38 @@ def Main(acesso="primeiro"):  # Primeira função que inicia todo o fluxo
         )  # Formatação para melhorar expericencia do usuario.
 
     escolha = input(
-        "\nDigite o numero da opção desejada.\n 1 - Gestão de Restaurantes \n 2 - Gestão de cardápio \n"
-    )  # opçoes de navegaçao, dividem os usuarios entre parceiros e clientes
+        """\nDigite o numero da opção desejada.
+ 1 - Gestão de restaurantes
+ 2 - Gestão de cardápio 
+ 3 - Apresentação de informações
+  Opção - """
+    )
     if escolha == "1":
-        print("\n***** Bem vindo parceiro! Muito bom tê-lo aqui. *****".center(50))
-        pass
-        return menu_parceiros()  # acessa funçao menu_parceiros
+        print("\n***** Gestão de restaurantes *****".center(50))
+        return menu_gestao_rest()  # acessa funçao menu_gestao_rest
 
     elif escolha == "2":
-        print("\n***** Bem vindo ao Ifood!!! *****".center(50))
-        pass
-        return menu_clientes()  # acessa funçao menu_clientes
+        print("\n***** Gestao de cardápio *****".center(50))
+        return menu_gestao_cardapio()
+
+    elif escolha == "3":
+        print("\n***** Gestao de cardápio *****".center(50))
+        return menu_informacoes()  # acessa funçao menunformaçoes_
 
     else:
         print("\nOpção invalda. Escolha com um número")
         acesso = "segundo"  # define variavel a ser utilizda na invocação da função Main
-        return Main(
-            acesso="segundo"
-        )  # cria loop para input errado. Simplificando tratamento de inputs. Retorna ao inicio.
+        return Main(acesso="segundo")
+        # cria loop para input errado. Simplificando tratamento de inputs. Retorna ao inicio.
 
 
-def menu_parceiros():  # arvore de decisao menu_parceiros
+def menu_gestao_rest():
     print(
-        "\n ---- Menu parceiros---- ".center(35),
+        "\n ---- Escolha pelo numero ---- ".center(35),  # Parapapapá
         "\n 1 - Cadastrar restaurante",
         " 2 - Editar restaurantes",
-        " 3 - Editar cardápio",
-        " 4 - Remover restaurante",
-        " 5 - Dar desconto",
-        " 6 - Sair",
+        " 3 - Remover restaurante",
+        " 4 - Sair",
         sep="\n",
     )
     op = input("\n Digite a opção para acesso: ")
@@ -44,47 +47,64 @@ def menu_parceiros():  # arvore de decisao menu_parceiros
         return editar_restaurante()
 
     elif op == "3":
-        return editar_cardapio()
-
-    elif op == "4":
         return remover_restaurante()
 
-    elif op == "5":
-        return desconto()
-
-    elif op == "6" or op == "sair":
-        return Main()
+    elif op == "4" or op == "sair":
+        return Main(acesso="segundo")
 
     else:
         print("\n********** Comando invalido! **********".center(60))
-        return menu_parceiros()
+        return menu_gestao_rest()
 
 
-def menu_clientes():  # arvore de decisao menu_clientes
+def menu_gestao_cardapio():
     print(
-        "\n ---- Escolha um dos numeros. ---- ".center(35),
-        "\n 1 - Restaurantes ",
-        " 2 - Busca de restaurantes",
-        " 3 - Cardapios",
+        "\n ---- Escolha pelo numero ---- ".center(35),  # Parapapapá
+        "\n 1 - Editar cardapios",
+        " 2 - Dar desconto",
+        " 3 - Sair",
+        sep="\n",
+    )
+    op = input("\n Digite a opção: ")
+    if op == "1":
+        return editar_cardapio()
+
+    elif op == "2":
+        return desconto()
+
+    elif op == "3" or op == "sair":
+        return Main(acesso="segundo")
+
+    else:
+        print("\n********** Comando invalido! **********".center(60))
+        return menu_gestao_cardapio()
+
+
+def menu_informacoes():
+    print(
+        "\n ---- Escolha pelo numeros ---- ".center(35),  # Amo muito tudo isso
+        "\n 1 - Listar restaurantes",
+        " 2 - Detalhar restaurantes",
+        " 3 - Cardapio",
         " 4 - Sair",
         sep="\n",
     )
     op = input("\n Digite a opção: ")
     if op == "1":
-        return restaurante()
+        return listar_restaurantes("menu_info")
 
     elif op == "2":
-        return busca()
+        return detalhar_restaurantes()
 
     elif op == "3":
-        return visualizar_cardapio()
+        return visualizar_cardapio("menu_info")
 
     elif op == "4" or op == "sair":
-        return Main()
+        return Main(acesso="segundo")
 
     else:
         print("\n********** Comando invalido! **********".center(60))
-        return menu_parceiros()
+        return menu_gestao_cardapio()
 
 
 def cadastro():
@@ -146,7 +166,7 @@ def editar_restaurante():
             restaurante_selecionado[3] = novo_tempo_de_entrega
 
             print(f"Restaurante '{novo_nome}' editado com sucesso!")
-            return menu_parceiros()
+            return menu_gestao_rest()
         else:
             print("Escolha inválida. Tente novamente.")
             return editar_restaurante()
@@ -175,7 +195,9 @@ def criar_cardapio(nome_restaurante):
         if preco.isdigit() and float(preco) > 0:
             cardapio_temp.append(prato)
             preco_temp.append(float(preco))
-            continua = input("\nDigite 1 para adicionar um novo item, ou 0 para sair: ")
+            continua = input(
+                "\nDigite 1 para adicionar um novo item, ou qualquer tecla para sair: "
+            )
         else:
             print("\nPor favor, digite um preço válido maior que zero.")
 
@@ -186,12 +208,14 @@ def criar_cardapio(nome_restaurante):
     for i in range(len(cardapio_temp)):
         print(cardapio_temp[i], end=" - ")
         print(preco_temp[i])
-        return menu_parceiros()
+        return menu_gestao_rest()
 
 
 def editar_cardapio():
     print("*** Editor de cardapios***")
-    id_restaurante = visualizar_cardapio()  # Return a variavel id_restaurante
+    id_restaurante = visualizar_cardapio(
+        "ed_cardapio"
+    )  # Return a variavel id_restaurante
     opcao = input(
         "Para editar prato digite 1, 2 para deletar prato, ou qualquer tecla para sair:\n"
     )
@@ -212,7 +236,7 @@ def editar_cardapio():
         if repetir == "1":
             return editar_cardapio()
         else:
-            return menu_parceiros()
+            return menu_gestao_cardapio()
 
     elif opcao == "2":
         id_prato = tratar_prato(id_restaurante)
@@ -229,12 +253,12 @@ def editar_cardapio():
             if repetir == "1":
                 return editar_cardapio()
             else:
-                return menu_parceiros()
+                return menu_gestao_cardapio()
         else:
-            return menu_parceiros()
+            return menu_gestao_cardapio()
 
     else:
-        return menu_parceiros()
+        return menu_gestao_cardapio()
 
 
 def tratar_prato(id_restaurante):
@@ -244,10 +268,9 @@ def tratar_prato(id_restaurante):
     return id_prato
 
 
-def visualizar_cardapio():
+def visualizar_cardapio(origem):
     id_restaurante = "-1"
-    for i in range(len(indice_restaurantes)):
-        print(i + 1, " - ", indice_restaurantes[i])
+    listar_restaurantes("cardap")
     while id_restaurante not in range(len(indice_restaurantes)):
         id_restaurante = int(input("\nDigite o numero do restaurante desejado:\n ")) - 1
     print(f"\nSegue o cardapio do restaurante {indice_restaurantes[id_restaurante]}:")
@@ -259,7 +282,35 @@ def visualizar_cardapio():
             " - ",
             precos[id_restaurante][pratos],
         )
-    return id_restaurante
+    if origem == "ed_cardapio":
+        return id_restaurante
+    else:
+        return menu_informacoes()
+
+
+def listar_restaurantes(origem):
+    for i in range(len(indice_restaurantes)):
+        print(i + 1, " - ", indice_restaurantes[i])
+    if origem == "menu_info":
+        return menu_informacoes()
+    else:
+        return
+
+
+def detalhar_restaurantes():
+    id_restaurante = "-1"
+    print("Detalhamento de restaurante.")
+    listar_restaurantes("det_rest")
+    while id_restaurante not in range(len(indice_restaurantes)):
+        id_restaurante = int(input("\nDigite o numero do restaurante desejado:\n ")) - 1
+    print(
+        f"""Nome - {restaurantes[id_restaurante][0]}
+Endereço - {restaurantes[id_restaurante][1]}
+Telefone - {restaurantes[id_restaurante][2]}
+Tempo de entrega - {restaurantes[id_restaurante][3]}
+    """
+    )
+    return menu_informacoes()
 
 
 """
@@ -271,8 +322,7 @@ def desconto():
     restaurante = None
     desconto = "0.0"
     contador = 0
-    for i in range(len(indice_restaurantes)):
-        print(i + 1, " - ", indice_restaurantes[i])
+    listar_restaurantes("descont")
     while restaurante not in range(len(indice_restaurantes)):
         if restaurante is not None:
             print("Numero invalido. Digite um numero cadastrado.")
@@ -290,7 +340,14 @@ def desconto():
     print(
         f" Os {contador} itens do cardapio do restaurante {indice_restaurantes[restaurante]} receberam desconto de {desconto}%. \n "
     )
-    return menu_parceiros()
+    return menu_gestao_cardapio()
+
+
+"""
+Função de remoçao de restaurantes. Quando tentei corrigir versões, 
+gerei um codigo com 2 funçoes iguais escritas pelo Thiago. Quando 
+apaguei a que aparecia como sendo feita por mim, sumiu o log do Thiago. 
+"""
 
 
 def remover_restaurante():
@@ -304,7 +361,7 @@ def remover_restaurante():
     )
 
     if escolha == "0":
-        return menu_parceiros()
+        return menu_gestao_rest()
 
     if escolha.isdigit():
         escolha = int(escolha) - 1
@@ -319,7 +376,7 @@ def remover_restaurante():
     else:
         print("Escolha inválida. Deve ser um número. Tente novamente.")
 
-    return menu_parceiros()
+    return menu_gestao_rest()
 
 
 indice_restaurantes = [

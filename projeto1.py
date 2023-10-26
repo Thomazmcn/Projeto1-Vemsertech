@@ -5,35 +5,40 @@ def Main(acesso="primeiro"):  # Primeira função que inicia todo o fluxo
         )  # Formatação para melhorar expericencia do usuario.
 
     escolha = input(
-        "\nDigite o numero da opção desejada.\n 1 - Gestão de Restaurantes \n 2 - Gestão de cardápio \n"
+        """\nDigite o numero da opção desejada.
+        1 - Gestão de restaurantes
+        2 - Gestão de cardápio 
+        3 - Apresentação de informações
+        Opção - """
     )  # opçoes de navegaçao, dividem os usuarios entre parceiros e clientes
     if escolha == "1":
-        print("\n***** Bem vindo parceiro! Muito bom tê-lo aqui. *****".center(50))
-        pass
-        return menu_parceiros()  # acessa funçao menu_parceiros
+        print("\n***** Gestão de restaurantes *****".center(50))
+        return menu_gestao_rest()  # acessa funçao menu_parceiros
 
     elif escolha == "2":
-        print("\n***** Bem vindo ao Ifood!!! *****".center(50))
-        pass
-        return menu_clientes()  # acessa funçao menu_clientes
+        print("\n***** Gestao de cardápio *****".center(50))
+        return menu_cardapio()  # acessa funçao menu_clientes
+
+    elif escolha == "3":
+        print("\n***** Apresentação de informações *****".center(50))
+        return menu_informacoes()
 
     else:
         print("\nOpção invalda. Escolha com um número")
         acesso = "segundo"  # define variavel a ser utilizda na invocação da função Main
-        return Main(
-            acesso="segundo"
-        )  # cria loop para input errado. Simplificando tratamento de inputs. Retorna ao inicio.
+        return Main(acesso="segundo")
+        # cria loop para input errado. Simplificando tratamento de inputs. Retorna ao inicio.
 
 
-def menu_parceiros():  # arvore de decisao menu_parceiros
+def menu_gestao_rest():  # arvore de decisao menu_parceiros
     print(
         "\n ---- Menu parceiros---- ".center(35),
         "\n 1 - Cadastrar restaurante",
         " 2 - Editar restaurantes",
-        " 3 - Editar cardápio",
-        " 4 - Dar desconto",
-        " 5 - Remover restaurante",
-        " 6 - Sair",
+        # " 3 - Editar cardápio",
+        # " 4 - Dar desconto",
+        " 3 - Remover restaurante",
+        " 4 - Sair",
         sep="\n",
     )
     op = input("\n Digite a opção para acesso: ")
@@ -43,16 +48,16 @@ def menu_parceiros():  # arvore de decisao menu_parceiros
     elif op == "2":
         return editar_restaurante()
 
+        # elif op == "3":
+        # return editar_cardapio()
+
+        # elif op == "4":
+        # return desconto()
+
     elif op == "3":
-        return editar_cardapio()
-
-    elif op == "4":
-        return desconto()
-
-    elif op == "5":
         return remover_restaurante()
 
-    elif op == "6" or op == "sair":
+    elif op == "4" or op == "sair":
         return Main()
 
     else:
@@ -60,7 +65,7 @@ def menu_parceiros():  # arvore de decisao menu_parceiros
         return menu_parceiros()
 
 
-def menu_clientes():  # arvore de decisao menu_clientes
+def menu_cardapio():  # arvore de decisao menu_clientes
     print(
         "\n ---- Escolha um dos numeros. ---- ".center(35),
         "\n 1 - Restaurantes ",
@@ -163,7 +168,7 @@ Função cria cardapio do novo restaurante cadastrado.
 def criar_cardapio(nome_restaurante):
     cardapio_temp = []
     preco_temp = []
-    continua = "1" 
+    continua = "1"
 
     while continua == "1":
         prato = input("\nDigite o nome do prato: \n")
@@ -182,7 +187,7 @@ def criar_cardapio(nome_restaurante):
     cardapios.append(cardapio_temp)
     precos.append(preco_temp)
     print(f"\nO cardápio do {nome_restaurante} é: ")
-    
+
     for i in range(len(cardapio_temp)):
         print(cardapio_temp[i], end=" - ")
         print(preco_temp[i])
@@ -276,7 +281,9 @@ def desconto():
     while restaurante not in range(len(indice_restaurantes)):
         if restaurante is not None:
             print("Numero invalido. Digite um numero cadastrado.")
-        restaurante = int(input(" Digite o numero do restaurante que fará promoção: "))-1
+        restaurante = (
+            int(input(" Digite o numero do restaurante que fará promoção: ")) - 1
+        )
     while not desconto.isnumeric():
         desconto = input(" Digite o desconto desejado. Ex: 30 => 30%.\n ")
     coeficiente = (100 - int(desconto)) / 100

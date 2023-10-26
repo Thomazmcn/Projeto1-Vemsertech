@@ -32,11 +32,11 @@ def Main(acesso="primeiro"):  # Primeira função que inicia todo o fluxo
 
 def menu_gestao_rest():
     print(
-        "\n ---- Escolha pelo numero ---- ".center(35),  # Parapapapá
+        "\n ---- Escolha pelo numero ---- ".center(35),  
         "\n 1 - Cadastrar restaurante",
         " 2 - Editar restaurantes",
         " 3 - Remover restaurante",
-        " 4 - Sair",
+        " 4 - Voltar",
         sep="\n",
     )
     op = input("\n Digite a opção para acesso: ")
@@ -59,10 +59,10 @@ def menu_gestao_rest():
 
 def menu_gestao_cardapio():
     print(
-        "\n ---- Escolha pelo numero ---- ".center(35),  # Parapapapá
+        "\n ---- Escolha pelo numero ---- ".center(35), 
         "\n 1 - Editar cardapios",
         " 2 - Dar desconto",
-        " 3 - Sair",
+        " 3 - Voltar",
         sep="\n",
     )
     op = input("\n Digite a opção: ")
@@ -82,11 +82,11 @@ def menu_gestao_cardapio():
 
 def menu_informacoes():
     print(
-        "\n ---- Escolha pelo numeros ---- ".center(35),  # Amo muito tudo isso
+        "\n ---- Escolha pelo numeros ---- ".center(35),
         "\n 1 - Listar restaurantes",
         " 2 - Detalhar restaurantes",
         " 3 - Cardapio",
-        " 4 - Sair",
+        " 4 - Voltar",
         sep="\n",
     )
     op = input("\n Digite a opção: ")
@@ -189,10 +189,10 @@ def criar_cardapio(nome_restaurante):
         prato = input("\nDigite o nome do prato: \n")
         preco = input("\nDigite o preço do prato: \nR$ ")
 
-        # Remove vírgulas, pontos e espaços da entrada do usuário
-        preco = preco.replace(",", "").replace(".", "").replace(" ", "")
+        # Troca a virgula por ponto
+        preco = preco.replace(",", ".")
 
-        if preco.isdigit() and float(preco) > 0:
+        if preco.replace(".", "", 1).isdigit() and float(preco) > 0:
             cardapio_temp.append(prato)
             preco_temp.append(float(preco))
             continua = input(
@@ -217,26 +217,30 @@ def editar_cardapio():
         "ed_cardapio"
     )  # Return a variavel id_restaurante
     opcao = input(
-        "Para editar prato digite 1, 2 para deletar prato, ou qualquer tecla para sair:\n"
+        "Para editar prato digite 1, 2 para deletar prato, 3 para adicionar prato ou qualquer tecla para sair:\n"
     )
 
     if opcao == "1":
-        id_prato = tratar_prato(id_restaurante)  # return id_prato para cardapio
-        novo_preco = "0"
+        id_prato = tratar_prato(id_restaurante)  # Obtém o índice do prato
         novo_prato = input(f"Digite novo nome para o prato N - {id_prato+1}\n")
-        while (
-            not novo_preco.isnumeric() or float(novo_preco) <= 0
-        ):  # testa input valido
-            novo_preco = input("\n Digite o preço do prato: \n R$ ")
-            # Remove vírgulas, pontos e espaços da entrada do usuário
-            novo_preco = novo_preco.replace(",", "").replace(".", "").replace(" ", "")
+    
+        novo_preco = input("\nDigite o preço do prato: \n R$ ")
+
+    #substitui vírgulas por pontos
+        novo_preco = novo_preco.replace(",", ".")
+
+        while not novo_preco.replace(".", "", 1).isdigit() or float(novo_preco) <= 0:
+            print("Por favor, digite um preço válido maior que zero.")
+            novo_preco = input("\nDigite o preço do prato: \n R$ ")
+
         cardapios[id_restaurante][id_prato] = novo_prato
-        precos[id_restaurante][id_prato] = novo_preco
+        precos[id_restaurante][id_prato] = float(novo_preco)
         repetir = input("Para editar outro prato digite 1, qualquer tecla para sair:")
         if repetir == "1":
             return editar_cardapio()
         else:
             return menu_gestao_cardapio()
+
 
     elif opcao == "2":
         id_prato = tratar_prato(id_restaurante)
@@ -257,8 +261,25 @@ def editar_cardapio():
         else:
             return menu_gestao_cardapio()
 
-    else:
-        return menu_gestao_cardapio()
+    elif opcao == "3":
+        novo_prato = input("Digite o nome do novo prato: ")
+        novo_preco_prato = input("Digite o preço do novo prato: R$ ")
+
+        novo_preco_prato = novo_preco_prato.replace(",", ".")
+        
+        while not novo_preco_prato.replace(".", "", 1).isdigit() or float(novo_preco_prato) <= 0:
+            print("Por favor, digite um preço válido maior que zero.")
+            novo_preco_prato = input("\nDigite o preço do prato: \n R$ ")
+            
+        cardapios[id_restaurante].append(novo_prato)
+        precos[id_restaurante].append(float(novo_preco_prato))
+        print(f"Prato '{novo_prato}' adicionado com sucesso!")
+
+        repetir = input("Para adicionar outro prato digite 1, qualquer tecla para sair: ")
+        if repetir == "1":
+            return editar_cardapio()
+        else:
+            return menu_gestao_cardapio()
 
 
 def tratar_prato(id_restaurante):

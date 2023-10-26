@@ -1,10 +1,10 @@
 # Projeto Sistema de Gestão de Restaurantes - Vemsertech ADA TECH
 
-Equipe:
+Equipe: </br>
 @Micheleregina2022 </br>
 @ThiagoRochedo </br>
 @Thomazmcn </br>
-@
+
 
 ### Síntese da Proposta do Projeto
 

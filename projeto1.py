@@ -1,3 +1,6 @@
+from compara import remover_restaurante
+
+
 def Main(acesso="primeiro"):  # Primeira função que inicia todo o fluxo
     if acesso == "primeiro":  # Indica a primeiro input na sessao desse usuario.
         print(
@@ -5,40 +8,35 @@ def Main(acesso="primeiro"):  # Primeira função que inicia todo o fluxo
         )  # Formatação para melhorar expericencia do usuario.
 
     escolha = input(
-        """\nDigite o numero da opção desejada.
-        1 - Gestão de restaurantes
-        2 - Gestão de cardápio 
-        3 - Apresentação de informações
-        Opção - """
+        "\nDigite o numero da opção desejada.\n 1 - Gestão de Restaurantes \n 2 - Gestão de cardápio \n"
     )  # opçoes de navegaçao, dividem os usuarios entre parceiros e clientes
     if escolha == "1":
-        print("\n***** Gestão de restaurantes *****".center(50))
-        return menu_gestao_rest()  # acessa funçao menu_parceiros
+        print("\n***** Bem vindo parceiro! Muito bom tê-lo aqui. *****".center(50))
+        pass
+        return menu_parceiros()  # acessa funçao menu_parceiros
 
     elif escolha == "2":
-        print("\n***** Gestao de cardápio *****".center(50))
-        return menu_cardapio()  # acessa funçao menu_clientes
-
-    elif escolha == "3":
-        print("\n***** Apresentação de informações *****".center(50))
-        return menu_informacoes()
+        print("\n***** Bem vindo ao Ifood!!! *****".center(50))
+        pass
+        return menu_clientes()  # acessa funçao menu_clientes
 
     else:
         print("\nOpção invalda. Escolha com um número")
         acesso = "segundo"  # define variavel a ser utilizda na invocação da função Main
-        return Main(acesso="segundo")
-        # cria loop para input errado. Simplificando tratamento de inputs. Retorna ao inicio.
+        return Main(
+            acesso="segundo"
+        )  # cria loop para input errado. Simplificando tratamento de inputs. Retorna ao inicio.
 
 
-def menu_gestao_rest():  # arvore de decisao menu_parceiros
+def menu_parceiros():  # arvore de decisao menu_parceiros
     print(
         "\n ---- Menu parceiros---- ".center(35),
         "\n 1 - Cadastrar restaurante",
         " 2 - Editar restaurantes",
-        # " 3 - Editar cardápio",
-        # " 4 - Dar desconto",
-        " 3 - Remover restaurante",
-        " 4 - Sair",
+        " 3 - Editar cardápio",
+        " 4 - Remover restaurante",
+        " 5 - Dar desconto",
+        " 6 - Sair",
         sep="\n",
     )
     op = input("\n Digite a opção para acesso: ")
@@ -48,16 +46,16 @@ def menu_gestao_rest():  # arvore de decisao menu_parceiros
     elif op == "2":
         return editar_restaurante()
 
-        # elif op == "3":
-        # return editar_cardapio()
-
-        # elif op == "4":
-        # return desconto()
-
     elif op == "3":
+        return editar_cardapio()
+
+    elif op == "4":
         return remover_restaurante()
 
-    elif op == "4" or op == "sair":
+    elif op == "5":
+        return desconto()
+
+    elif op == "6" or op == "sair":
         return Main()
 
     else:
@@ -65,7 +63,7 @@ def menu_gestao_rest():  # arvore de decisao menu_parceiros
         return menu_parceiros()
 
 
-def menu_cardapio():  # arvore de decisao menu_clientes
+def menu_clientes():  # arvore de decisao menu_clientes
     print(
         "\n ---- Escolha um dos numeros. ---- ".center(35),
         "\n 1 - Restaurantes ",
@@ -295,6 +293,35 @@ def desconto():
     print(
         f" Os {contador} itens do cardapio do restaurante {indice_restaurantes[restaurante]} receberam desconto de {desconto}%. \n "
     )
+    return menu_parceiros()
+
+
+def remover_restaurante():
+    print("Lista de restaurantes para remoção:")
+
+    for i, restaurante in enumerate(indice_restaurantes):
+        print(f"{i + 1} - {restaurante}")
+
+    escolha = input(
+        "\nDigite o número do restaurante que deseja remover ou '0' para cancelar: "
+    )
+
+    if escolha == "0":
+        return menu_parceiros()
+
+    if escolha.isdigit():
+        escolha = int(escolha) - 1
+        if 0 <= escolha < len(indice_restaurantes):
+            restaurante_removido = indice_restaurantes.pop(escolha)
+            restaurante_info = restaurantes.pop(escolha)
+            cardapio_removido = cardapios.pop(escolha)
+            preco_removido = precos.pop(escolha)
+            print(f"Restaurante '{restaurante_removido}' removido com sucesso!")
+        else:
+            print("Escolha inválida. Tente novamente.")
+    else:
+        print("Escolha inválida. Deve ser um número. Tente novamente.")
+
     return menu_parceiros()
 
 

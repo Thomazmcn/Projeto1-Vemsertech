@@ -1,6 +1,3 @@
-from compara import remover_restaurante
-
-
 def Main(acesso="primeiro"):  # Primeira função que inicia todo o fluxo
     if acesso == "primeiro":  # Indica a primeiro input na sessao desse usuario.
         print(
